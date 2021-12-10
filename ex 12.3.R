@@ -18,3 +18,12 @@ plot(hc.s)
 
 # A negative value (-1) will cause the labels to hang down from 0
 plot(hc.s,hang=-1)
+
+# Another way to create the figure 12.3
+library(factoextra)
+fviz_dend(hc.s)
+
+# Example 12.5 (Clustering using complete linkage)
+hc.c <- hclust(d, "complete")
+hc.c$merge
+hc.c$height
