@@ -48,8 +48,24 @@ rownames(utility) <- as.character(utility[,9])
 dist.eu <- dist(scale(utility[,1:8]), "euclidean") # Table 12.6
 # the distance measure to be used. This must be one of "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski". 
 
-hc.eu.c <- hclust(dist.eu, "average")
+hc.eu.c <- hclust(dist.eu, "average") # you can also specify "ward" to replace “average”
 hc.eu.c$merge
 hc.eu.c$height
 plot(hc.eu.c,hang=-1, main="Public utility companies",
-     labels=as.character(utility[,9]))
+     labels=as.character(utility[,9])) 
+# Notice that the figure and clustering are different from Figure 12.10 in the textbook.
+
+plot(as.dendrogram(hc.eu.c), horiz=TRUE) # another way to show the clustering
+
+# Example 12.7 (Clustering variables using complete linkage)
+
+#clustering variables
+cormtx <- cor(utility[,1:8]) # Table 12.5
+dist.cor <- sqrt(2*(1-cormtx)) # This is the key step. The previous correlation can be negaive, so it cannot be used as distance. The correlation is [-1,1], thus we use 1- to make it [0,2]. 0 means the very similar, 2 means very dissimilar, which can be used as distance.
+# The reason we can transform this is in the textbook: a new assignement of distances that have the same relative orderings will not change the configuration of the complete linkage cluster.
+
+hc.c <- hclust(as.dist(dist.cor), "complete")
+plot(hc.c, hang=-1, main="cluster for variables") # Figure 12.8
+
+
+
