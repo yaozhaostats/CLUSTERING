@@ -67,5 +67,21 @@ dist.cor <- sqrt(2*(1-cormtx)) # This is the key step. The previous correlation 
 hc.c <- hclust(as.dist(dist.cor), "complete")
 plot(hc.c, hang=-1, main="cluster for variables") # Figure 12.8
 
+# Example 12.12 (K-means clustering of public utilities)
+utility.km <- kmeans(utility[,1:8], 4)
+utility.km # Notice that if you don't set a seed first, then you will get different results in each run.
 
+# Simulated data
+# This is not in the textbook.
 
+x <- rbind(matrix(rnorm(100, sd = 0.3), ncol = 2),
+           matrix(rnorm(100, mean = 1, sd = 0.3), ncol = 2),
+           matrix(rnorm(100, mean=.5, sd=.2), ncol=2))
+colnames(x) <- c("x", "y")
+par(mfrow=c(1,2)) # combine two figures in one screen
+plot(x, col=c(rep(1,50),rep(2,50),rep(3,50)), main="true clusters")
+(cl <- kmeans(x, 3))
+plot(x, col = cl$cluster, main="clusters from k-means")
+points(cl$centers, col = 1:3, pch = 8, cex=2)
+
+# Example 12.13 (A model based clustering of the iris data)
